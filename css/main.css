@@ -1,0 +1,28 @@
+table, th, td {
+    border: 2px solid #fff;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+}
+
+th {
+  background: #03A9F4;
+  border-radius: 8px;
+  color: #fff;
+}
+
+th:not(.currentMonth) {
+  cursor: pointer;
+
+}
+
+tr.dateLine > td:hover {
+  background: #eee;
+  border-radius: 10px;
+}
+
+.currentMonth {
+  text-transform: uppercase;
+}

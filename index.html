@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Календарь</title>
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+
+<body>
+  <h3>Календарь:</h3>
+
+  <table>
+    <tr class="tableLineMonth">
+      <th class="previousMonth">&#60;</th>
+      <th class="currentMonth" colspan="5"></th>
+      <th class="nextMonth">&#62;</th>
+    </tr>
+    <tr class="tableLineNameDays">
+      <td>Mo</td>
+      <td>Tu</td>
+      <td>We</td>
+      <td>Th</td>
+      <td>Fr</td>
+      <td>Sa</td>
+      <td>Su</td>
+    </tr>
+
+  </table>
+
+  <!-- <p>Текст из farebase: <span id="fromFarebase"></span></p> -->
+
+  <script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+  <script type="text/javascript" src="libs/jquery.min.js"></script>
+  <script type="text/javascript" src="libs/moment.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
