@@ -1,7 +1,12 @@
 table, th, td {
-    border: 2px solid #fff;
+    border: 1px solid #fff;
     border-collapse: collapse;
 }
+
+table {
+    table-layout: fixed;
+    width: 300px;
+   }
 
 th, td {
     padding: 12px;
@@ -9,7 +14,7 @@ th, td {
 
 th {
   background: #03A9F4;
-  border-radius: 8px;
+  /* border-radius: 0px; */
   color: #fff;
 }
 
@@ -20,9 +25,12 @@ th:not(.currentMonth) {
 
 tr.dateLine > td:hover {
   background: #eee;
-  border-radius: 10px;
 }
 
 .currentMonth {
   text-transform: uppercase;
+}
+
+.dayWithEvent {
+  background: #d0f0ff; 
 }

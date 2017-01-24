@@ -1,29 +1,6 @@
 ;(function() {
   "use strict";
 
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyAQJrqBC6bQ1Asnsx5EXMSye0XoUZXVhk4",
-    authDomain: "testlevelup-87972.firebaseapp.com",
-    databaseURL: "https://testlevelup-87972.firebaseio.com",
-    storageBucket: "testlevelup-87972.appspot.com",
-    messagingSenderId: "543438920294"
-  };
-
-  firebase.initializeApp(config);
-
-  //запись в Firebase
-  function writeUserData(year, month, day, time, eventText) {
-    firebase.database().ref('event/' + year + '/' + day).set({
-      time: time,
-      eventText: eventText
-    });
-  }
-
-  writeUserData(2017, "January", 24, "18:00", "next brainstorm in Level Up");
-  writeUserData(2017, "January", 25, "21:00", "ice cream");
-  writeUserData(2016, "January", 30, "8:00", "buy a christmas tree");
-
   //now - текущий момент времени
   var now = moment(),
       currentMonth,
@@ -31,8 +8,6 @@
       currentMaxDayInMonth,
       firstDayMonth,
       currentNumWeek;
-
-  console.log(now);
 
   //текущий месяц и год динамическое добавление в шапку
   var addCurrentMonthAndYear = function() {
@@ -55,11 +30,13 @@
     $(".previousMonth").on("click", function () {
       now.subtract(1, 'months');
       addCurrentMonthAndYear();
+      findEventInMonth();
     });
 
     $(".nextMonth").on("click", function () {
       now.add(1, 'months');
       addCurrentMonthAndYear();
+      findEventInMonth();
     });
 
     //создание массивов месяцов
@@ -84,7 +61,7 @@
       for (let i = 1; i <= emptyCells; i++) {
         Mas.unshift("");
       }
-      console.log(Mas);
+      // console.log(Mas);
       //режем массив на объект с неделями
       var Obj = {};
       for (let i = 0; Mas.length > 0; i++) {
@@ -106,5 +83,64 @@
         $(".dateLine").removeClass("forDelete");      //чтобы каждый новый массив добавлялся в новую линию
       }
     }
+
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyAQJrqBC6bQ1Asnsx5EXMSye0XoUZXVhk4",
+      authDomain: "testlevelup-87972.firebaseapp.com",
+      databaseURL: "https://testlevelup-87972.firebaseio.com",
+      storageBucket: "testlevelup-87972.appspot.com",
+      messagingSenderId: "543438920294"
+    };
+    var eventInfo;
+
+    firebase.initializeApp(config);
+
+    //запись в Firebase
+    function writeUserData(year, month, day, time, eventText) {
+      firebase.database().ref('event/' + year + '/' + month + '/' + day).set({
+        time: time,
+        eventText: eventText
+      });
+    }
+
+    // writeUserData(2017, "January", 24, "18:00", "next brainstorm in Level Up");
+    // writeUserData(2017, "January", 25, "21:00", "ice cream");
+    // writeUserData(2016, "December", 30, "8:00", "buy a christmas tree");
+
+      var eventInfo;
+      // firebase.database().ref('event/' + 2017 + '/' + "January" + '/' + 25).once("value").then(function(snapshot) {
+      //   var eventInfo = snapshot.child("eventText").val();
+      //   console.log(eventInfo);
+      // });
+
+      function findEventInMonth() {
+        if (!firebase.database().ref('event/' + currentYear).once("value")) return;
+          else if(!firebase.database().ref('event/' + currentYear + '/' + currentMonth).once("value")) return;
+            else firebase.database().ref('event/' + currentYear + '/' + currentMonth).once("value").then(function(snapshot) {
+            var eventInfo = snapshot.val();
+            console.log(eventInfo);
+
+            for (var key in eventInfo) {
+              $(`td:contains(${key})`).addClass("dayWithEvent");
+
+
+              // for (var k in eventInfo[key]) {
+              //   $(`.timeInfo`).text(`${eventInfo[k]}`);
+              // }
+            }
+            var clickedDay = $(`.dayWithEvent`);
+            clickedDay.on("click", function() {
+              var clickedNumberDay = clickedDay.html();
+              console.log(eventInfo[Number(`${clickedNumberDay}`)]);
+            });
+          });
+
+
+      }
+
+      findEventInMonth();
+
+
 
 })();
