@@ -1,11 +1,12 @@
 table, th, td {
-    border: 1px solid #fff;
     border-collapse: collapse;
 }
 
 table {
     table-layout: fixed;
-    width: 300px;
+    max-width: 300px;
+    margin: auto;
+    box-shadow: 0 0 20px #444;
    }
 
 th, td {
@@ -14,23 +15,74 @@ th, td {
 
 th {
   background: #03A9F4;
-  /* border-radius: 0px; */
   color: #fff;
+}
+
+.tableLineNameDays,
+.dateLine:not(:last-child) {
+  border-bottom: 1px solid #999;
+}
+
+td {
+  position: relative;
+  text-align: center;
 }
 
 th:not(.currentMonth) {
   cursor: pointer;
-
 }
 
 tr.dateLine > td:hover {
-  background: #eee;
+  border-radius: 100%;
 }
 
 .currentMonth {
   text-transform: uppercase;
+  border-right: 1px solid #fff;
+  border-left: 1px solid #fff;
 }
 
 .dayWithEvent {
-  background: #d0f0ff; 
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+}
+
+.dayWithEvent:after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 100%;
+  background-color: rgba(0,0,0,0.6);
+  position: absolute;
+  top: 34px;
+  right: 20px;
+}
+
+.dayWithEvent:before {
+    content: "";
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    background-color: rgb(3, 169, 244);
+    position: absolute;
+    top: 1px;
+    right: 2px;
+    z-index: -1;
+}
+
+.infoLine {
+  border-top: 2px solid #333;
+}
+
+.infoLine td {
+  padding: 5px 12px;
+}
+
+.infoLine > td:first-child {
+  border-right: 2px solid #8BC34A;
+}
+
+.infoLine > td:nth-child(2) {
+  font-style: italic;
 }

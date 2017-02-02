@@ -7,7 +7,8 @@
       currentYear,
       currentMaxDayInMonth,
       firstDayMonth,
-      currentNumWeek;
+      currentNumWeek,
+      eventInfo;
 
   //текущий месяц и год динамическое добавление в шапку
   var addCurrentMonthAndYear = function() {
@@ -41,7 +42,6 @@
 
     //создание массивов месяцов
     function createMasWeek() {
-      console.log("создаю массив с выбранным месяцем");
       var Mas = [],
           emptyCells = 0;
       for (let i = 1; i <= currentMaxDayInMonth; i++) {
@@ -75,6 +75,7 @@
 
       //наполняем календарь датами
       $("tr.dateLine").remove();  //сперва очистим данные предыдущих месяцев если они были
+      $("tr.infoLine").remove();  //сперва очистим данные предыдущих событий если они были
       for (var key in Obj) {      //цикл для каждого массива объекта Obj
         $("table").append(`<tr class="forDelete dateLine"></tr>`);    //создаем новый ряд
               for (var i = 0; i < Obj[key].length; i++) {
@@ -92,7 +93,7 @@
       storageBucket: "testlevelup-87972.appspot.com",
       messagingSenderId: "543438920294"
     };
-    var eventInfo;
+
 
     firebase.initializeApp(config);
 
@@ -107,35 +108,35 @@
     // writeUserData(2017, "January", 24, "18:00", "next brainstorm in Level Up");
     // writeUserData(2017, "January", 25, "21:00", "ice cream");
     // writeUserData(2016, "December", 30, "8:00", "buy a christmas tree");
-
-      var eventInfo;
-      // firebase.database().ref('event/' + 2017 + '/' + "January" + '/' + 25).once("value").then(function(snapshot) {
-      //   var eventInfo = snapshot.child("eventText").val();
-      //   console.log(eventInfo);
-      // });
+    // writeUserData(2017, "February", 5, "06:00", "ice skating on the river Dnepr");
+    // writeUserData(2017, "February", 23, "12:00", "defender of the Fatherland Day");
 
       function findEventInMonth() {
+        //поиск событий в выбранном месяце
         if (!firebase.database().ref('event/' + currentYear).once("value")) return;
           else if(!firebase.database().ref('event/' + currentYear + '/' + currentMonth).once("value")) return;
             else firebase.database().ref('event/' + currentYear + '/' + currentMonth).once("value").then(function(snapshot) {
             var eventInfo = snapshot.val();
             console.log(eventInfo);
 
+            //подсветка событий в выбранном месяце
             for (var key in eventInfo) {
-              $(`td:contains(${key})`).addClass("dayWithEvent");
-
-
-              // for (var k in eventInfo[key]) {
-              //   $(`.timeInfo`).text(`${eventInfo[k]}`);
-              // }
+              if(key < 10) $(`td:contains("${key}"):first`).addClass("dayWithEvent");  //иначе выбируться все числа содержащие данную цифру
+                else $(`td:contains("${key}")`).addClass("dayWithEvent");
             }
-            var clickedDay = $(`.dayWithEvent`);
-            clickedDay.on("click", function() {
-              var clickedNumberDay = clickedDay.html();
-              console.log(eventInfo[Number(`${clickedNumberDay}`)]);
+
+            //клики по событиям в выбранном месяце
+            $(`.dayWithEvent`).on("click", function() {
+              $("tr.infoLine").remove();  //сперва очистим данные предыдущих событий если они были
+              let clickedNumberDay = $(this).html();
+              console.log(eventInfo[Number(clickedNumberDay)]["eventText"] + " at the " + eventInfo[Number(clickedNumberDay)]["time"]);
+              $("table").append(`<tr class="infoLine">
+                  <td colspan="2">${eventInfo[Number(clickedNumberDay)]["time"]}</td>
+                  <td colspan="5">${eventInfo[Number(clickedNumberDay)]["eventText"]}</td>
+                </tr>`
+              );
             });
           });
-
 
       }
 
