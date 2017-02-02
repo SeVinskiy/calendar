@@ -76,6 +76,9 @@
       //наполняем календарь датами
       $("tr.dateLine").remove();  //сперва очистим данные предыдущих месяцев если они были
       $("tr.infoLine").remove();  //сперва очистим данные предыдущих событий если они были
+      $("tr.addInfoLine").remove();  //сперва очистим input для добавления событий если они были
+      $("tr.buttonLine").remove();
+
       for (var key in Obj) {      //цикл для каждого массива объекта Obj
         $("table").append(`<tr class="forDelete dateLine"></tr>`);    //создаем новый ряд
               for (var i = 0; i < Obj[key].length; i++) {
@@ -119,6 +122,7 @@
             var eventInfo = snapshot.val();
             console.log(eventInfo);
 
+
             //подсветка событий в выбранном месяце
             for (var key in eventInfo) {
               if(key < 10) $(`td:contains("${key}"):first`).addClass("dayWithEvent");  //иначе выбируться все числа содержащие данную цифру
@@ -128,20 +132,78 @@
             //клики по событиям в выбранном месяце
             $(`.dayWithEvent`).on("click", function() {
               $("tr.infoLine").remove();  //сперва очистим данные предыдущих событий если они были
+              $("tr.addInfoLine").remove();  //сперва очистим input для добавления событий если они были
+              $("tr.buttonLine").remove();
+
               let clickedNumberDay = $(this).html();
-              console.log(eventInfo[Number(clickedNumberDay)]["eventText"] + " at the " + eventInfo[Number(clickedNumberDay)]["time"]);
               $("table").append(`<tr class="infoLine">
                   <td colspan="2">${eventInfo[Number(clickedNumberDay)]["time"]}</td>
                   <td colspan="5">${eventInfo[Number(clickedNumberDay)]["eventText"]}</td>
                 </tr>`
               );
             });
-          });
 
+            //клик по дню без события для дальнейшего добавления
+            $(".dateLine > td:not(.dayWithEvent)").on("click", function() {
+              var clickedNumberDay = $(this).html();
+
+              $("tr.addInfoLine").remove();  //сперва очистим input для добавления событий если они были
+              $("tr.infoLine").remove();  //сперва очистим данные предыдущих событий если они были
+              $("tr.buttonLine").remove();
+
+              if (clickedNumberDay.trim() === "") return;
+                else {
+                  $("table").append(`
+                    <tr class="addInfoLine">
+                      <td colspan="2"><input type="text" placeholder="00:00 - 24:00"></input></td>
+                      <td colspan="5"><textarea placeholder='put event for ${clickedNumberDay.trim()} ${currentMonth}'></textarea></td>
+                    </tr>
+                    <tr class="buttonLine">
+                      <td colspan="7"><button>Add event</button></td>
+                    </tr>
+                    `);
+                }
+
+                //клик по кнопки для добавления события в базу farebase
+                $("button").on("click", function(event) {
+                  event.preventDefault();
+
+                  var TimeInput = $(".addInfoLine input").val();
+
+                  let ReTime = /^\d\d:\d\d$/gim;
+
+                  if (!ReTime.test(TimeInput.trim())) {
+                    alert("время не в том формате, нужно написать например 10:05");
+                    return;
+                  }
+
+                  if (Number(TimeInput.substr(0, 2)) > 24) {
+                    alert("не божет быть больше 24 часов в сутках");
+                    return;
+                  }
+
+                  if (Number(TimeInput.substr(3, 2)) > 59) {
+                    alert("не божет быть больше 60 минут в часе");
+                    return;
+                  }
+
+                  var EventTextarea = $(".addInfoLine textarea").val();
+
+                  if (EventTextarea.trim() === "") {
+                    alert("в описании события нет ни одного символа");
+                    return;
+                  }
+
+                  $("tr.addInfoLine").remove(); //сперва очистим данные предыдущих событий если они были
+                  $("tr.buttonLine").remove();
+
+                  writeUserData(currentYear, currentMonth, clickedNumberDay.trim(), TimeInput.trim(), EventTextarea.trim());
+                  findEventInMonth();
+                });
+
+            });
+          });
       }
 
       findEventInMonth();
-
-
-
 })();

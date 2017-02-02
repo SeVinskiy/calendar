@@ -2,7 +2,6 @@
 
 * {
   font-family: 'pt_sansregular';
-  /* font-weight: bold; */
 }
 
 table, th, td {
@@ -19,9 +18,7 @@ table {
 th, td {
     width: 40px;
     height: 40px;
-    /* padding: 11px 12px; */
     box-sizing: border-box;
-    /* line-height: 40px; */
 }
 
 th {
@@ -98,4 +95,35 @@ tr.dateLine > td:hover {
 .infoLine > td:nth-child(2) {
   font-style: italic;
   text-align: left;
+}
+
+.addInfoLine {
+  border-top: 2px solid #333;
+}
+
+.addInfoLine input {
+  width: 100%;
+  height: 36px;
+  border-radius: 5px;
+  border: 1px solid #03a9f4;
+  margin-left: 8px;
+  box-sizing: border-box;
+}
+
+.addInfoLine textarea {
+  height: 36px;
+  margin-top: 3px;
+  border-radius: 5px;
+  border: 1px solid #03a9f4;
+  box-sizing: border-box;
+}
+
+button {
+  text-transform: uppercase;
+  color: #fff;
+  width: 100%;
+  border-radius: 5px;
+  height: 36px;
+  background: rgb(0, 105, 152);
+  border: 2px solid #333;
 }
