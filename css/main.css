@@ -1,3 +1,10 @@
+@import "fonts.css";
+
+* {
+  font-family: 'pt_sansregular';
+  /* font-weight: bold; */
+}
+
 table, th, td {
     border-collapse: collapse;
 }
@@ -10,7 +17,11 @@ table {
    }
 
 th, td {
-    padding: 12px;
+    width: 40px;
+    height: 40px;
+    /* padding: 11px 12px; */
+    box-sizing: border-box;
+    /* line-height: 40px; */
 }
 
 th {
@@ -20,7 +31,7 @@ th {
 
 .tableLineNameDays,
 .dateLine:not(:last-child) {
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid #ddd;
 }
 
 td {
@@ -56,18 +67,18 @@ tr.dateLine > td:hover {
   background-color: rgba(0,0,0,0.6);
   position: absolute;
   top: 34px;
-  right: 20px;
+  right: 19px;
 }
 
 .dayWithEvent:before {
     content: "";
-    width: 40px;
-    height: 40px;
+    width: 23px;
+    height: 23px;
     border-radius: 100%;
-    background-color: rgb(3, 169, 244);
+    background-color: rgb(0, 105, 152);
     position: absolute;
-    top: 1px;
-    right: 2px;
+    top: 8px;
+    right: 9px;
     z-index: -1;
 }
 
@@ -81,8 +92,10 @@ tr.dateLine > td:hover {
 
 .infoLine > td:first-child {
   border-right: 2px solid #8BC34A;
+  text-align: right;
 }
 
 .infoLine > td:nth-child(2) {
   font-style: italic;
+  text-align: left;
 }
