@@ -75,10 +75,9 @@
 
       //наполняем календарь датами
       $("tr.dateLine").remove();  //сперва очистим данные предыдущих месяцев если они были
-      $("tr.infoLine").remove();  //сперва очистим данные предыдущих событий если они были
-      $("tr.addInfoLine").remove();  //сперва очистим input для добавления событий если они были
-      $("tr.buttonLine").remove();
 
+      clear();
+    
       for (var key in Obj) {      //цикл для каждого массива объекта Obj
         $("table").append(`<tr class="forDelete dateLine"></tr>`);    //создаем новый ряд
               for (var i = 0; i < Obj[key].length; i++) {
@@ -131,9 +130,8 @@
 
             //клики по событиям в выбранном месяце
             $(`.dayWithEvent`).on("click", function() {
-              $("tr.infoLine").remove();  //сперва очистим данные предыдущих событий если они были
-              $("tr.addInfoLine").remove();  //сперва очистим input для добавления событий если они были
-              $("tr.buttonLine").remove();
+
+              clear();
 
               let clickedNumberDay = $(this).html();
               $("table").append(`<tr class="infoLine">
@@ -147,9 +145,7 @@
             $(".dateLine > td:not(.dayWithEvent)").on("click", function() {
               var clickedNumberDay = $(this).html();
 
-              $("tr.addInfoLine").remove();  //сперва очистим input для добавления событий если они были
-              $("tr.infoLine").remove();  //сперва очистим данные предыдущих событий если они были
-              $("tr.buttonLine").remove();
+              clear();
 
               if (clickedNumberDay.trim() === "") return;
                 else {
@@ -194,15 +190,21 @@
                     return;
                   }
 
-                  $("tr.addInfoLine").remove(); //сперва очистим данные предыдущих событий если они были
-                  $("tr.buttonLine").remove();
-
                   writeUserData(currentYear, currentMonth, clickedNumberDay.trim(), TimeInput.trim(), EventTextarea.trim());
+
+                  clear();
+
                   findEventInMonth();
                 });
 
             });
           });
+      }
+
+      function clear() {
+        $("tr.addInfoLine").remove();
+        $("tr.buttonLine").remove();
+        $("tr.infoLine").remove();
       }
 
       findEventInMonth();
