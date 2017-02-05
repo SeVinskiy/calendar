@@ -81,6 +81,7 @@ tr.dateLine > td:hover {
 
 .infoLine {
   border-top: 2px solid #333;
+  position: relative;
 }
 
 .infoLine td {
@@ -126,4 +127,26 @@ button {
   height: 36px;
   background: rgb(0, 105, 152);
   border: 2px solid #333;
+}
+
+span.deleteIcon {
+  position: absolute;
+  width: 23px;
+  height: 23px;
+  border-radius: 100%;
+  background-color: rgba(255, 0, 0, 0.7);
+  z-index: 3;
+  color: #fff;
+  text-align: center;
+  line-height: 19px;
+  font-size: 25px;
+  font-style: normal;
+  bottom: 5px;
+  right: 5px;
+  cursor: pointer;
+  transition: all ease-out .5s;
+}
+
+span.deleteIcon:hover {
+  transform: rotate(180deg);
 }

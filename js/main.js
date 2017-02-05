@@ -77,7 +77,7 @@
       $("tr.dateLine").remove();  //сперва очистим данные предыдущих месяцев если они были
 
       clear();
-    
+
       for (var key in Obj) {      //цикл для каждого массива объекта Obj
         $("table").append(`<tr class="forDelete dateLine"></tr>`);    //создаем новый ряд
               for (var i = 0; i < Obj[key].length; i++) {
@@ -139,6 +139,8 @@
                   <td colspan="5">${eventInfo[Number(clickedNumberDay)]["eventText"]}</td>
                 </tr>`
               );
+
+              deleteEv(clickedNumberDay);
             });
 
             //клик по дню без события для дальнейшего добавления
@@ -193,7 +195,6 @@
                   writeUserData(currentYear, currentMonth, clickedNumberDay.trim(), TimeInput.trim(), EventTextarea.trim());
 
                   clear();
-
                   findEventInMonth();
                 });
 
@@ -206,6 +207,19 @@
         $("tr.buttonLine").remove();
         $("tr.infoLine").remove();
       }
+
+
+      function deleteEv(clickedNumberDay) {
+        $("tr.infoLine td:last-child").append(`<span class="deleteIcon">х</span>`);
+
+        $(".deleteIcon").on("click", () => {
+          firebase.database().ref('event/' + currentYear + '/' + currentMonth + '/' + Number(clickedNumberDay)).remove();
+
+          clear();
+          $("td.dayWithEvent").removeClass("dayWithEvent");
+          findEventInMonth();
+        })
+      };
 
       findEventInMonth();
 })();
