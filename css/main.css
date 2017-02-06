@@ -148,5 +148,28 @@ span.deleteIcon {
 }
 
 span.deleteIcon:hover {
-  transform: rotate(180deg);
+  transform: rotate(360deg);
+}
+
+span.editIcon {
+  position: absolute;
+  width: 23px;
+  height: 23px;
+  border-radius: 100%;
+  background-color: rgba(0, 0, 255, 0.7);
+  z-index: 3;
+  color: #fff;
+  text-align: center;
+  line-height: 19px;
+  font-size: 25px;
+  font-style: italic;
+  bottom: 5px;
+  left: 5px;
+  cursor: pointer;
+  transition: all ease-out .5s;
+  font-family: serif;
+}
+
+span.editIcon:hover {
+  transform: rotate(360deg);
 }

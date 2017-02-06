@@ -135,12 +135,13 @@
 
               let clickedNumberDay = $(this).html();
               $("table").append(`<tr class="infoLine">
-                  <td colspan="2">${eventInfo[Number(clickedNumberDay)]["time"]}</td>
-                  <td colspan="5">${eventInfo[Number(clickedNumberDay)]["eventText"]}</td>
+                  <td colspan="2" contenteditable="true">${eventInfo[Number(clickedNumberDay)]["time"]}</td>
+                  <td colspan="5" contenteditable="true">${eventInfo[Number(clickedNumberDay)]["eventText"]}</td>
                 </tr>`
               );
 
               deleteEv(clickedNumberDay);
+              editEv(eventInfo, clickedNumberDay);
             });
 
             //клик по дню без события для дальнейшего добавления
@@ -210,7 +211,7 @@
 
 
       function deleteEv(clickedNumberDay) {
-        $("tr.infoLine td:last-child").append(`<span class="deleteIcon">х</span>`);
+        $("tr.infoLine td:last-child").append(`<span contenteditable="false" class="deleteIcon">х</span>`);
 
         $(".deleteIcon").on("click", () => {
           firebase.database().ref('event/' + currentYear + '/' + currentMonth + '/' + Number(clickedNumberDay)).remove();
@@ -218,7 +219,24 @@
           clear();
           $("td.dayWithEvent").removeClass("dayWithEvent");
           findEventInMonth();
-        })
+        });
+      };
+
+      function editEv(eventInfo, clickedNumberDay) {
+        $("tr.infoLine td:first-child").append(`<span contenteditable="false" class="editIcon">i</span>`);
+
+        $(".editIcon").on("click", () => {
+           let newTime = $("tr.infoLine > td:first-child").text().slice(0, -1),
+               newTextEv = $("tr.infoLine > td:last-child").text().slice(0, -1);
+
+           firebase.database().ref('event/' + currentYear + '/' + currentMonth + '/' + Number(clickedNumberDay)).update({
+             time: `${newTime}`,
+             eventText: `${newTextEv}`
+           });
+
+          clear();
+          findEventInMonth();
+        });
       };
 
       findEventInMonth();
