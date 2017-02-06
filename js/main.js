@@ -223,7 +223,7 @@
       };
 
       function editEv(eventInfo, clickedNumberDay) {
-        $("tr.infoLine td:first-child").append(`<span contenteditable="false" class="editIcon">i</span>`);
+        $("tr.infoLine td:first-child").append(`<span contenteditable="false" class="editIcon"><img src="img/pen_white.png"</span>`);
 
         $(".editIcon").on("click", () => {
            let newTime = $("tr.infoLine > td:first-child").text().slice(0, -1),
