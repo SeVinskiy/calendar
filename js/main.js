@@ -135,8 +135,8 @@
 
               let clickedNumberDay = $(this).html();
               $("table").append(`<tr class="infoLine">
-                  <td colspan="2" contenteditable="true">${eventInfo[Number(clickedNumberDay)]["time"]}</td>
-                  <td colspan="5" contenteditable="true">${eventInfo[Number(clickedNumberDay)]["eventText"]}</td>
+                  <td colspan="2" contenteditable="true"><div>${eventInfo[Number(clickedNumberDay)]["time"]}</div></td>
+                  <td colspan="5" contenteditable="true"><div>${eventInfo[Number(clickedNumberDay)]["eventText"]}</div></td>
                 </tr>`
               );
 
@@ -226,7 +226,7 @@
         $("tr.infoLine td:first-child").append(`<span contenteditable="false" class="editIcon"><img src="img/pen_white.png"</span>`);
 
         $(".editIcon").on("click", () => {
-           let newTime = $("tr.infoLine > td:first-child").text().slice(0, -1),
+           let newTime = $("tr.infoLine > td:first-child").text(),
                newTextEv = $("tr.infoLine > td:last-child").text().slice(0, -1);
 
            firebase.database().ref('event/' + currentYear + '/' + currentMonth + '/' + Number(clickedNumberDay)).update({
