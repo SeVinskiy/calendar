@@ -121,7 +121,6 @@
             var eventInfo = snapshot.val();
             console.log(eventInfo);
 
-
             //подсветка событий в выбранном месяце
             for (var key in eventInfo) {
               if(key < 10) $(`td:contains("${key}"):first`).addClass("dayWithEvent");  //иначе выбируться все числа содержащие данную цифру
@@ -211,10 +210,13 @@
 
 
       function deleteEv(clickedNumberDay) {
-        $("tr.infoLine td:last-child").append(`<span contenteditable="false" class="deleteIcon">х</span>`);
+        $("tr.infoLine td:last-child").append(`<span contenteditable="false" class="deleteIcon"><img src="img/trash.png"></span>`);
 
         $(".deleteIcon").on("click", () => {
-          firebase.database().ref('event/' + currentYear + '/' + currentMonth + '/' + Number(clickedNumberDay)).remove();
+          let answer = prompt(`точно хотите удалить? если да введи "Y"`);
+          if (answer === "Y") {
+            firebase.database().ref('event/' + currentYear + '/' + currentMonth + '/' + Number(clickedNumberDay)).remove();
+          }
 
           clear();
           $("td.dayWithEvent").removeClass("dayWithEvent");
@@ -223,7 +225,7 @@
       };
 
       function editEv(eventInfo, clickedNumberDay) {
-        $("tr.infoLine td:first-child").append(`<span contenteditable="false" class="editIcon"><img src="img/pen_white.png"</span>`);
+        $("tr.infoLine td:first-child").append(`<span contenteditable="false" class="editIcon"><img src="img/pen.png"></span>`);
 
         $(".editIcon").on("click", () => {
            let newTime = $("tr.infoLine > td:first-child").text(),

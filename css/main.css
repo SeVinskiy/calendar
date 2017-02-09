@@ -137,11 +137,9 @@ span.deleteIcon {
   border-radius: 100%;
   background-color: rgba(255, 0, 0, 0.7);
   z-index: 3;
-  color: #fff;
   text-align: center;
   line-height: 19px;
   font-size: 25px;
-  font-style: normal;
   bottom: 5px;
   right: 5px;
   cursor: pointer;
@@ -172,6 +170,11 @@ span.editIcon:hover {
   transform: rotate(360deg);
 }
 span.editIcon img {
+  width: 15px;
+  height: 15px;
+}
+
+span.deleteIcon img {
   width: 15px;
   height: 15px;
 }
